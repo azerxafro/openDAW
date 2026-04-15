@@ -1,0 +1,6 @@
+{
+  "name": "lucid-daw",
+  "buildCommand": "turbo run build --filter=@opendaw/app-studio...",
+  "outputDirectory": "packages/app/studio/dist",
+  "framework": "vite"
+}
