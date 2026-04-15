@@ -121,7 +121,7 @@ var Header = function (_a) {
             <hr />
             <div style={{ flex: "1 0 0" }}/>
                 location.origin.includes("dev.opendaw.studio")
-                && (<h5 style={{ color: studio_enums_1.Colors.cream.toString() }}>DEV VERSION (UNSTABLE)</h5>)}
+                && (<h5 style={{ color: studio_enums_1.Colors.cream.toString() }}>DEV VERSION (UNSTABLE)</h5>)
             
             <button className="button" style={{ background: 'rgba(0, 255, 255, 0.1)', border: '1px solid #00ffff', color: '#00ffff', padding: '0 8px', borderRadius: '4px', cursor: 'pointer' }} onClick={function () {
             if (!service.hasProfile)
