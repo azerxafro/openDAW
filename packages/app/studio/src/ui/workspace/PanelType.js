@@ -1,0 +1,21 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.PanelType = void 0;
+var PanelType;
+(function (PanelType) {
+    PanelType[PanelType["Dashboard"] = 0] = "Dashboard";
+    PanelType[PanelType["Timeline"] = 1] = "Timeline";
+    PanelType[PanelType["ContentEditor"] = 2] = "ContentEditor";
+    PanelType[PanelType["DevicePanel"] = 3] = "DevicePanel";
+    PanelType[PanelType["BrowserPanel"] = 4] = "BrowserPanel";
+    PanelType[PanelType["Notepad"] = 5] = "Notepad";
+    PanelType[PanelType["Mixer"] = 6] = "Mixer";
+    PanelType[PanelType["ModularSystem"] = 7] = "ModularSystem";
+    PanelType[PanelType["VUMeter"] = 8] = "VUMeter";
+    PanelType[PanelType["MidiFall"] = 9] = "MidiFall";
+    PanelType[PanelType["ProjectInfo"] = 10] = "ProjectInfo";
+    PanelType[PanelType["ShadertoyPreview"] = 11] = "ShadertoyPreview";
+    PanelType[PanelType["ShadertoyEditor"] = 12] = "ShadertoyEditor";
+    PanelType[PanelType["CodeEditor"] = 13] = "CodeEditor";
+    PanelType[PanelType["EmptyFlexSpace"] = 14] = "EmptyFlexSpace";
+})(PanelType || (exports.PanelType = PanelType = {}));

@@ -3,6 +3,7 @@ import {resolve} from "path"
 import {defineConfig} from "vite"
 import crossOriginIsolation from "vite-plugin-cross-origin-isolation"
 import viteCompression from "vite-plugin-compression"
+import {VitePWA} from "vite-plugin-pwa"
 import {BuildInfo} from "./src/BuildInfo"
 import {existsSync} from "node:fs"
 
@@ -120,7 +121,17 @@ export default defineConfig(({command}) => {
                         }
                     })
                 }
-            }
+            },
+            VitePWA({
+                registerType: 'autoUpdate',
+                manifest: {
+                    name: "LUCID DAW",
+                    short_name: "LUCID",
+                    theme_color: "#0B0B0E",
+                    background_color: "#0B0B0E",
+                    display: "standalone"
+                }
+            })
         ]
     }
 })

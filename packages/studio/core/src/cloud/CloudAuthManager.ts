@@ -4,6 +4,8 @@ import {CloudService} from "./CloudService"
 import {CloudHandler} from "./CloudHandler"
 import {DropboxHandler} from "./DropboxHandler"
 import {GoogleDriveHandler} from "./GoogleDriveHandler"
+import {SupabaseHandler} from "./SupabaseHandler"
+import {createClient} from "@supabase/supabase-js"
 
 type ClientIds = {
     Dropbox: string
@@ -44,6 +46,9 @@ export class CloudAuthManager {
                 }
                 case "GoogleDrive": {
                     return Promises.memoizeAsync(this.#oauthGoogle.bind(this), TimeSpan.hours(1))
+                }
+                case "Supabase": {
+                    return Promises.memoizeAsync(this.#oauthSupabase.bind(this), TimeSpan.hours(24))
                 }
                 default:
                     return panic(`Unsupported service: ${service}`)
@@ -208,6 +213,25 @@ export class CloudAuthManager {
         })
     }
 
+    async #oauthSupabase(): Promise<CloudHandler> {
+        const supabaseUrl = import.meta.env?.VITE_SUPABASE_URL || "https://xxx.supabase.co"
+        const supabaseAnonKey = import.meta.env?.VITE_SUPABASE_ANON_KEY || "xxx"
+        const supabase = createClient(supabaseUrl, supabaseAnonKey)
+        
+        // 1. Check if we already have an active session
+        const { data: { session } } = await supabase.auth.getSession()
+        if (session) {
+            return new SupabaseHandler()
+        }
+
+        // 2. No accounts policy: We trigger a friction-free Anonymous Session
+        const { error } = await supabase.auth.signInAnonymously()
+        
+        if (error) return Promise.reject(error)
+
+        return new SupabaseHandler()
+    }
+
     async #createHandler(service: string, token: string): Promise<CloudHandler> {
         switch (service) {
             case "dropbox": {
@@ -215,6 +239,9 @@ export class CloudAuthManager {
             }
             case "google": {
                 return new GoogleDriveHandler(token)
+            }
+            case "supabase": {
+                return new SupabaseHandler()
             }
             default:
                 return panic(`Handler not implemented for service: ${service}`)

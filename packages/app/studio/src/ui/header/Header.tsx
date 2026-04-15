@@ -12,6 +12,7 @@ import {Workspace} from "@/ui/workspace/Workspace.ts"
 import {Colors, IconSymbol} from "@opendaw/studio-enums"
 import {Html} from "@opendaw/lib-dom"
 import {MenuItem, MidiDevices, StudioPreferences} from "@opendaw/studio-core"
+import {UUID, RuntimeNotifier} from "@opendaw/lib-std"
 import {Manual, Manuals} from "@/ui/pages/Manuals"
 import {HorizontalPeakMeter} from "@/ui/components/HorizontalPeakMeter"
 import {gainToDb} from "@opendaw/lib-dsp"
@@ -116,9 +117,27 @@ export const Header = ({lifecycle, service}: Construct) => {
                               preferences={preferences}/>
             <hr/>
             <div style={{flex: "1 0 0"}}/>
-            {
-                location.origin.includes("dev.opendaw.studio")
-                && (<h5 style={{color: Colors.cream.toString()}}>DEV VERSION (UNSTABLE)</h5>)}
+            
+            <button className="button" style={{background: 'rgba(0, 255, 255, 0.1)', border: '1px solid #00ffff', color: '#00ffff', padding: '0 8px', borderRadius: '4px', cursor: 'pointer'}}
+                onClick={() => {
+                   if (!service.hasProfile) return;
+                   // If already joined a room, just copy URL, else create logic would bounce to /join
+                   let url = window.location.href;
+                   if (!url.includes('/join/')) {
+                       const room = UUID.generate();
+                       RouteLocation.get().navigateTo(`/join/${room}`);
+                       url = `${window.location.origin}/join/${room}`;
+                   }
+                   navigator.clipboard.writeText(url);
+                   RuntimeNotifier.info({headline: "Room Active", message: `Link copied to clipboard: ${url}`});
+                }}>
+                <Icon symbol={IconSymbol.Link} /> Share
+            </button>
+            <button className="button" style={{background: 'rgba(255, 119, 0, 0.1)', border: '1px solid #ff7700', color: '#ff7700', padding: '0 8px', borderRadius: '4px', cursor: 'pointer', marginLeft: '8px'}}
+                onClick={() => import("@/service/audio/AutoMastering").then(m => m.AutoMastering.trigger(service))}>
+                <Icon symbol={IconSymbol.Wand} /> Auto-Master
+            </button>
+
             <div style={{flex: "2 0 0"}}/>
             <hr/>
             <HorizontalPeakMeter lifecycle={lifecycle} peaksInDb={peaksInDb} width="4em"/>

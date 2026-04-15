@@ -1,5 +1,8 @@
 if ("stackTraceLimit" in Error) {Error.stackTraceLimit = 50}
 
+import { registerSW } from 'virtual:pwa-register'
+registerSW({ immediate: true })
+
 import "./main.sass"
 import {App} from "@/ui/App.tsx"
 import {panic, Progress, RuntimeNotification, RuntimeNotifier, UUID} from "@opendaw/lib-std"
