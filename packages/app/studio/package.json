@@ -34,8 +34,7 @@
     "mediabunny": "^1.0.3",
     "monaco-editor": "^0.54.0",
     "@spotify/basic-pitch": "^1.0.0",
-    "onnxruntime-web": "^1.17.1",
-    "rnnoise-wasm": "^0.3.0"
+    "onnxruntime-web": "^1.17.1"
   },
   "devDependencies": {
     "@opendaw/eslint-config": "^0.0.27",
